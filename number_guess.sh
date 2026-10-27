@@ -2,7 +2,7 @@
 
 PSQL="psql --username=freecodecamp --dbname=number_guess -t --no-align -c"
 
-HIGHEST_NUMBER=10
+HIGHEST_NUMBER=1000
 SECRET_NUMBER=$(( $RANDOM % $HIGHEST_NUMBER ))
 NUMBER_OF_GUESSES=1
 
@@ -42,6 +42,8 @@ do
   read ENTERED_NUMBER
 done
 
+echo You guessed it in $NUMBER_OF_GUESSES tries. The secret number was $SECRET_NUMBER. Nice job!
+
 if [[ -z $FOUND_USERNAME ]]
 then
   INSERT_USERNAME_RESULT=$($PSQL "INSERT INTO users(username, games_played, best_game) VALUES('$ENTERED_USERNAME', 1, $NUMBER_OF_GUESSES)")
@@ -57,4 +59,3 @@ else
     UPDATE_USER_RESULT=$($PSQL "UPDATE users SET games_played = $GAMES_PLAYED WHERE username = '$ENTERED_USERNAME'")
   fi
 fi
-echo You guessed it in $NUMBER_OF_GUESSES tries. The secret number was $SECRET_NUMBER. Nice job!
